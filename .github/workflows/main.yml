@@ -1,0 +1,22 @@
+name: Akasya Duragi Jar Derleyici
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Java 17 Kurulumu
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Gradle Kurulumu ve Derleme
+        run: |
+          gradle wrapper --gradle-version 8.7
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+      - name: Modu İndirmeye Hazırla
+        uses: actions/upload-artifact@v4
+        with:
+          name: AkasyaDuragiModu-JAR
+          path: build/libs/*.jar
