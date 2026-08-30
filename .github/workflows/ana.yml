@@ -1,0 +1,27 @@
+name: Akasya Duragi Jar Derleyici
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodları İndir (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Java Kurulumu
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle ile Derle (Build)
+        run: chmod +x gradlew && ./gradlew build
+
+      - name: Jar Dosyasını Kaydet (Artifacts)
+        uses: actions/upload-artifact@v4
+        with:
+          name: AkasyaDuragi-Mod
+          path: build/libs/*.jar
